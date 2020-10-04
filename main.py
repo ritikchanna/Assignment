@@ -34,7 +34,6 @@ async def create_node(node_type: str, path: str, name: str = Form(...), child_no
     new_node = klass2(name)
     leaf_node.append_child(new_node)
     session.commit()
-    #session.close()
     return new_node.id
 
 
