@@ -39,20 +39,16 @@ async def create_node(node_type: str, path: str, name: str = Form(...), child_no
 
 @app.get("/{type}/{node_id}")
 async def get_node(type, node_id):
-    print(node_id)
     session = session_factory()
     klass = globals()[type]
     node = session.query(klass).get(node_id)
-    session.close()
-    return node
+    return node.json()
 
 
 @app.get("/")
 async def get_all():
     session = session_factory()
     exam_query = session.query(Exam)
-    session.close()
-    print(list_to_json(exam_query.all()))
     return list_to_json(exam_query.all())
 
 
@@ -60,7 +56,6 @@ async def get_all():
 async def get_all():
     session = session_factory()
     exam_query = session.query(Exam)
-    session.close()
     return exam_query.all()
 
 

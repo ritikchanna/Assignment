@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy import Column, Integer, String, Table, ForeignKey
 from sqlalchemy.orm import relationship
 from db import Base
@@ -27,7 +28,7 @@ class Subject(Base):
         if type(children) == Topic:
             self.topics.append(children)
         else:
-            raise Exception("Invalid Child type for Subject")
+            raise HTTPException(status_code=400, detail="Invalid Child type for Subject")
 
     def json(self):
         child_json = "[ "

@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String, Table, ForeignKey
-from sqlalchemy.orm import relationship, relation
+from fastapi import HTTPException
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 from db import Base
 import json
 
@@ -22,7 +23,7 @@ class Topic(Base):
 
             self.sub_topics.append(children)
         else:
-            raise Exception("Invalid Child type for Topic")
+            raise HTTPException(status_code=400, detail="Invalid Child type for Topic")
 
     def json(self):
         child_json = "[ "

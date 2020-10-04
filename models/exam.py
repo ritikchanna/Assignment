@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy import Column, Integer, String, Table, ForeignKey
 from sqlalchemy.orm import relationship
 from db import Base
@@ -33,16 +34,16 @@ class Exam(Base):
     def append_child(self, children):
         if type(children) == Category:
             if len(self.subjects) > 1:
-                raise Exception("Invalid Child type[Category] for this exam")
+                raise HTTPException(status_code=400, detail="Invalid Child type[Category] for this exam")
             else:
                 self.categories.append(children)
         elif type(children) == Subject:
             if len(self.categories) > 1:
-                raise Exception("Invalid Child type[Subject] for this exam")
+                raise HTTPException(status_code=400, detail="Invalid Child type[Subject] for this exam")
             else:
                 self.subjects.append(children)
         else:
-            raise Exception("Invalid Child type for exam")
+            raise HTTPException(status_code=400, detail="Invalid Child type for exam")
 
     def json(self):
         child_json = "[ "
